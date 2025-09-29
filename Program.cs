@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using KanbanBackend.Data;
+using KanbanBackend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql(DbConnection)
 );
 
+builder.Services.AddScoped<IBoardService, BoardService>();
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 

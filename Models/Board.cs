@@ -6,6 +6,6 @@ public class Board
     public required string Name { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
     public ICollection<Column>? Steps { get; set; }
 }
