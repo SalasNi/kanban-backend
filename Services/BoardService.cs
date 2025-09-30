@@ -20,9 +20,15 @@ public class BoardService : IBoardService
 
     public async Task<IEnumerable<Board>> GetAllBoards()
     {
+        /*var boards = await _dbContext.Boards
+        .Where(i => 
+            i.DeletedAt == null 
+        )*/
+
         var boards = await _dbContext.Boards.ToListAsync();
         return boards;
     }
+
 
     public async Task<Board?> FindById(int id)
     {
@@ -54,7 +60,9 @@ public class BoardService : IBoardService
     {
         var newBoard = new Board
         {
-            Name = createBoardDto.Name
+            Name = createBoardDto.Name,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
 
         await using var transaction = await _dbContext.Database.BeginTransactionAsync();

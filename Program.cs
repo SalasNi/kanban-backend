@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 );
 
 builder.Services.AddScoped<IBoardService, BoardService>();
+builder.Services.AddScoped<IIssueService, IssueService>();
 
 
 var app = builder.Build();
