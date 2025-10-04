@@ -20,12 +20,12 @@ public class BoardService : IBoardService
 
     public async Task<IEnumerable<Board>> GetAllBoards()
     {
-        /*var boards = await _dbContext.Boards
-        .Where(i => 
-            i.DeletedAt == null 
-        )*/
+        var boards = await _dbContext.Boards
+        .Where(i =>
+            i.DeletedAt == null
+        )
+        .ToListAsync();
 
-        var boards = await _dbContext.Boards.ToListAsync();
         return boards;
     }
 

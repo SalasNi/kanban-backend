@@ -1,3 +1,5 @@
+using KanbanBackend.Dtos;
+using KanbanBackend.Exceptions;
 using KanbanBackend.Models;
 using KanbanBackend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +19,30 @@ public class ColumnController : Controller
         _columnService = columnService;
     }
 
-    [HttpGet("board/{boardId}/column/{ColumnId}")]
-    public ActionResult<IEnumerable<Column>> GetColumnsOfBoard(int boardId, int ColumnId)
+    [HttpGet("board/{boardId}/column")]
+    public async Task<ActionResult<IEnumerable<Column>>> GetColumnsOfBoard(int boardId)
     {
-        return Ok();
+        var data = await _columnService.GetColumnsOfBoard(boardId);
+        return Ok(data);
     }
+
+    [HttpPut("{ColumnId}")]
+    public async Task<ActionResult> UpdateColumn(int ColumnId, UpdateColumnDto updateColumnDto)
+    {
+        try
+        {
+            await _columnService.Update(ColumnId, updateColumnDto);
+            return Ok();
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception)
+        {
+            return Problem("Unexpected error");
+        }
+        
+    }
+
 }

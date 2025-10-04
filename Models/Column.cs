@@ -8,4 +8,5 @@ public class Column
     public DateTime UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public required Board Board { get; set; }
+    public ICollection<Issue> Issues { get; set; } = [];
 }
