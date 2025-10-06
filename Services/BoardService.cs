@@ -29,7 +29,6 @@ public class BoardService : IBoardService
         return boards;
     }
 
-
     public async Task<Board?> FindById(int id)
     {
         var board = await _dbContext.Boards

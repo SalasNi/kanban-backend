@@ -20,8 +20,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 builder.Services.AddScoped<IBoardService, BoardService>();
 builder.Services.AddScoped<IIssueService, IssueService>();
 
+builder.Services.AddScoped<Dataseed>();
 
 var app = builder.Build();
+
+
+// Terminal Commands
+
+// dotnet run --seed
+if (args.Contains("--seed") && app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<Dataseed>();
+    await seeder.Seed();
+    return;
+}
 
 
 // Configure the HTTP request pipeline.
