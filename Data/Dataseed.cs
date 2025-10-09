@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Bogus;
 using KanbanBackend.Models;
 
@@ -7,7 +6,6 @@ namespace KanbanBackend.Data;
 
 public class Dataseed
 {
-
     ApplicationDbContext _dbContext;
 
     public Dataseed(ApplicationDbContext dbContext)
@@ -32,7 +30,8 @@ public class Dataseed
                     o.Name = f.Commerce.Product();
                 });
 
-                _dbContext.Boards.Add(testBoard);
+                var newBoard = testBoard.Generate();
+                _dbContext.Boards.Add(newBoard);
 
                 await _dbContext.SaveChangesAsync();
 
@@ -41,7 +40,7 @@ public class Dataseed
                     Name = "To Do",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
-                    Board = testBoard
+                    Board = newBoard
                 };
 
                 await _dbContext.Columns.AddAsync(todoColumn);
@@ -51,7 +50,7 @@ public class Dataseed
                     Name = "Done",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
-                    Board = testBoard
+                    Board = newBoard
                 };
 
                 await _dbContext.Columns.AddAsync(doneColumn);
@@ -61,7 +60,7 @@ public class Dataseed
                     Name = "In Progress",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
-                    Board = testBoard
+                    Board = newBoard
                 };
 
                 await _dbContext.Columns.AddAsync(progressColumn);

@@ -27,7 +27,7 @@ public class ColumnService : IColumnService
         )
         .Include(c =>
             c.Issues.Where(
-                i => i.DeletedAt != null
+                i => i.DeletedAt == null
             )
         )
         .ToListAsync();
@@ -41,7 +41,8 @@ public class ColumnService : IColumnService
         .Where(c =>
             c.Id == id &&
             c.DeletedAt == null
-        ).FirstOrDefaultAsync();
+        )
+        .FirstOrDefaultAsync();
 
         if (column == null)
         {

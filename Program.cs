@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using KanbanBackend.Data;
 using KanbanBackend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+}); ;
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,6 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 
 builder.Services.AddScoped<IBoardService, BoardService>();
 builder.Services.AddScoped<IIssueService, IssueService>();
+builder.Services.AddScoped<IColumnService, ColumnService>();
 
 builder.Services.AddScoped<Dataseed>();
 
